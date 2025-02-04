@@ -1,0 +1,9 @@
+grabit_front_feed_feed:
+    path: /feed/{slug}.{_format}
+    defaults:
+        _controller: 'grabit_front_feed.controller.feed_controller::index'
+    methods:
+        - GET
+    requirements:
+        slug: '[a-z0-9-_]+'
+        _format: 'xml'

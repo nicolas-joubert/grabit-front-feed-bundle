@@ -1,0 +1,7 @@
+services:
+  grabit_front_feed.cache.adapter:
+    class: Symfony\Component\Cache\Adapter\FilesystemTagAwareAdapter
+    arguments:
+      - ''
+      - 86400 # 24*60*60
+      - '%kernel.cache_dir%'

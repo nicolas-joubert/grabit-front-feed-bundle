@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping">
+    <mapped-superclass name="NicolasJoubert\GrabitFrontFeedBundle\Entity\Feed" table="grabit_feed">
+        <unique-constraints>
+            <unique-constraint name="unique_slug" columns="slug" />
+        </unique-constraints>
+
+        <id name="id" column="id" type="integer">
+            <generator strategy="AUTO" />
+        </id>
+        <field name="title" column="title" type="string" length="255" />
+        <field name="slug" column="slug" type="string" length="20" />
+        <field name="description" column="description" type="string" length="255" />
+        <field name="itemsPerPage" column="items_per_page" type="integer">
+            <options>
+                <option name="default">20</option>
+            </options>
+        </field>
+        <many-to-many field="sources" target-entity="NicolasJoubert\GrabitBundle\Model\SourceInterface" inversed-by="feeds">
+            <join-table name="grabit_feeds_sources">
+                <join-columns>
+                    <join-column name="feed_id" referenced-column-name="id" />
+                </join-columns>
+                <inverse-join-columns>
+                    <join-column name="source_id" referenced-column-name="id" />
+                </inverse-join-columns>
+            </join-table>
+        </many-to-many>
+    </mapped-superclass>
+</doctrine-mapping>
