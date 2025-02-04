@@ -1,0 +1,45 @@
+services:
+  grabit_front_feed.cache.adapter:
+    class: Symfony\Component\Cache\Adapter\NullAdapter
+
+  grabit_front_feed.controller.feed_controller:
+    class: NicolasJoubert\GrabitFrontFeedBundle\Controller\FeedController
+    arguments:
+      - '@grabit_front_feed.repository.feed'
+      - '@grabit_front_feed.manager.feed_manager'
+    tags:
+      - { name: controller.service_arguments }
+  
+  grabit_front_feed.event_listener.cache_invalidate:
+    class: NicolasJoubert\GrabitFrontFeedBundle\EventListener\CacheInvalidate
+    tags:
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\ExtractedDataInterface }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\ExtractedDataInterface }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\SourceInterface }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\SourceInterface }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitFrontFeedBundle\Entity\FeedInterface }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitFrontFeedBundle\Entity\FeedInterface }
+
+  grabit_front_feed.manager.feed_manager:
+    class: NicolasJoubert\GrabitFrontFeedBundle\Manager\FeedManager
+    arguments:
+      - '@grabit.repository.extracted_data'
+
+  grabit_front_feed.manager.cached_feed_manager:
+    class: NicolasJoubert\GrabitFrontFeedBundle\Manager\CachedFeedManager
+    decorates: grabit_front_feed.manager.feed_manager
+    arguments:
+      - '@.inner'
+      - '@grabit_front_feed.cache.adapter'
+
+  grabit.repository.extracted_data:
+    class: NicolasJoubert\GrabitFrontFeedBundle\Repository\ExtractedDataRepository
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit.model.extracted_data.class%'
+
+  grabit_front_feed.repository.feed:
+    class: NicolasJoubert\GrabitFrontFeedBundle\Repository\FeedRepository
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '%grabit_front_feed.model.feed.class%'

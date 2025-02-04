@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constraint-mapping xmlns="http://symfony.com/schema/dic/constraint-mapping">
+    <class name="NicolasJoubert\GrabitFrontFeedBundle\Model\Feed">
+        <constraint name="Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity">
+            <option name="fields">
+                <value>slug</value>
+            </option>
+        </constraint>
+        <property name="title">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="slug">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="description">
+            <constraint name="NotBlank" />
+        </property>
+        <property name="sources">
+            <constraint name="NotBlank" />
+        </property>
+    </class>
+</constraint-mapping>
