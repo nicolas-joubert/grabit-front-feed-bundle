@@ -55,7 +55,7 @@ class FeedManager implements FeedManagerInterface
         $channel->appendChild($description);
 
         $channel->appendChild($atomFeed->createElement('link', $selfUri));
-        $channel->appendChild($atomFeed->createElement('pubDate', (new \DateTime())->format('r')));
+        $channel->appendChild($atomFeed->createElement('pubDate', new \DateTime()->format('r')));
 
         $atomLink = $atomFeed->createElement('atom:link');
         $atomLink->setAttribute('href', $selfUri);
