@@ -3,6 +3,7 @@
 namespace NicolasJoubert\GrabitFrontFeedBundle\Controller;
 
 use NicolasJoubert\GrabitFrontFeedBundle\Manager\FeedManagerInterface;
+use NicolasJoubert\GrabitFrontFeedBundle\Model\FeedInterface;
 use NicolasJoubert\GrabitFrontFeedBundle\Repository\FeedRepositoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,7 +22,7 @@ class FeedController
     ): Response {
         $feed = $this->feedRepository->findOneBy(['slug' => $slug]);
 
-        if (!$feed) {
+        if (!$feed instanceof FeedInterface) {
             throw new NotFoundHttpException('Feed not found');
         }
 
