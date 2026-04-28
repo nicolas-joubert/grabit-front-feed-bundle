@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace NicolasJoubert\GrabitFrontFeedBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
