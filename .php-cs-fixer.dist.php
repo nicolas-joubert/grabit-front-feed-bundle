@@ -8,6 +8,7 @@ $finder = (new PhpCsFixer\Finder())
     ->notPath('config/bundles.php')
     // ignore files created by recipes
     ->notPath('src/Kernel.php')
+    ->notPath('tests/bootstrap.php')
 ;
 
 return (new PhpCsFixer\Config())
@@ -15,7 +16,7 @@ return (new PhpCsFixer\Config())
         '@Symfony' => true,
         '@PhpCsFixer' => true,
         '@DoctrineAnnotation' => true,
-        '@PHP83Migration' => true,
+        '@PHP8x5Migration' => true,
     ])
     ->setFinder($finder)
 ;
