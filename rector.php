@@ -24,5 +24,6 @@ return RectorConfig::configure()
         ],
         // ignore files created by recipes
         __DIR__.'/src/Kernel.php',
+        __DIR__.'/tests/bootstrap.php',
     ])
 ;
