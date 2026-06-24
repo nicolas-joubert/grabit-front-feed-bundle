@@ -12,13 +12,17 @@ services:
   
   grabit_front_feed.event_listener.cache_invalidate:
     class: NicolasJoubert\GrabitFrontFeedBundle\EventListener\CacheInvalidate
+    arguments:
+      - '@grabit_front_feed.manager.feed_manager'
     tags:
-      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\ExtractedDataInterface }
-      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\ExtractedDataInterface }
-      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\SourceInterface }
-      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitBundle\Entity\SourceInterface }
-      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: NicolasJoubert\GrabitFrontFeedBundle\Entity\FeedInterface }
-      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: NicolasJoubert\GrabitFrontFeedBundle\Entity\FeedInterface }
+      # Entity listeners are matched by Doctrine on the exact mapped class name, not on
+      # interfaces, so they must target the concrete classes configured for the app.
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: '%grabit.model.extracted_data.class%' }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: '%grabit.model.extracted_data.class%' }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: '%grabit.model.source.class%' }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: '%grabit.model.source.class%' }
+      - { name: doctrine.orm.entity_listener, event: postUpdate, method: invalidateCache, entity: '%grabit_front_feed.model.feed.class%' }
+      - { name: doctrine.orm.entity_listener, event: postRemove, method: invalidateCache, entity: '%grabit_front_feed.model.feed.class%' }
 
   grabit_front_feed.manager.feed_manager:
     class: NicolasJoubert\GrabitFrontFeedBundle\Manager\FeedManager
